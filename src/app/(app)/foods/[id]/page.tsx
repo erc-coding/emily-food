@@ -94,7 +94,9 @@ export default async function EditFoodPage({
                         currentNotes={fs.notes}
                         currentAisle={fs.aisle}
                       />
-                      <RefreshPriceButton foodStoreId={fs.id} />
+                      {fs.store.kroger_location_id ? (
+                        <RefreshPriceButton foodStoreId={fs.id} />
+                      ) : null}
                     </div>
                   </div>
                   {fs.notes ? <p className="text-xs text-neutral-500 dark:text-neutral-400">{fs.notes}</p> : null}

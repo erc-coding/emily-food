@@ -4,7 +4,6 @@ import RefreshPriceButton from "@/components/RefreshPriceButton";
 import PriceEditor from "@/components/PriceEditor";
 import { formatDateTime } from "@/lib/format";
 import KrogerLocationPicker from "./KrogerLocationPicker";
-import { updateStoreLocation } from "./actions";
 
 function formatPrice(price: number | null) {
   if (price === null) return "No price yet";
@@ -35,36 +34,7 @@ export default async function StoresPage() {
 
         return (
           <section key={store.id}>
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h2 className="text-lg font-medium">{store.name}</h2>
-              <form action={updateStoreLocation} className="flex flex-wrap items-center gap-2">
-                <input type="hidden" name="id" value={store.id} />
-                <input
-                  type="text"
-                  name="location"
-                  defaultValue={store.location ?? ""}
-                  placeholder="Address, for price lookups"
-                  className="w-48 rounded-md border border-neutral-300 bg-white px-2 py-1 text-xs dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
-                />
-                {isKroger ? (
-                  <input type="hidden" name="website_url" value={store.website_url ?? ""} />
-                ) : (
-                  <input
-                    type="url"
-                    name="website_url"
-                    defaultValue={store.website_url ?? ""}
-                    placeholder="This store's own URL (optional, speeds up lookups)"
-                    className="w-72 rounded-md border border-neutral-300 bg-white px-2 py-1 text-xs dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
-                  />
-                )}
-                <button
-                  type="submit"
-                  className="text-xs font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
-                >
-                  Save
-                </button>
-              </form>
-            </div>
+            <h2 className="text-lg font-medium">{store.name}</h2>
             {isKroger ? (
               <div className="mt-2">
                 <KrogerLocationPicker
@@ -105,7 +75,9 @@ export default async function StoresPage() {
                           currentNotes={fs.notes}
                           currentAisle={fs.aisle}
                         />
-                        <RefreshPriceButton foodStoreId={fs.id} />
+                        {store.kroger_location_id ? (
+                          <RefreshPriceButton foodStoreId={fs.id} />
+                        ) : null}
                       </div>
                     </div>
                     {fs.notes ? (
