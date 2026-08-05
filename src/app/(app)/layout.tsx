@@ -27,25 +27,27 @@ export default async function AppLayout({
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="border-b border-neutral-200 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <nav className="flex items-center gap-4">
+      <header className="border-b border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-3">
+          <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-neutral-600 hover:text-neutral-900"
+                className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-neutral-500">{user.email}</span>
+            <span className="max-w-[140px] truncate text-sm text-neutral-500 dark:text-neutral-400 sm:max-w-none">
+              {user.email}
+            </span>
             <form action={signOut}>
               <button
                 type="submit"
-                className="text-sm font-medium text-neutral-600 hover:text-neutral-900"
+                className="text-sm font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
               >
                 Sign out
               </button>
@@ -53,7 +55,7 @@ export default async function AppLayout({
           </div>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 sm:py-8">
         {children}
       </main>
     </div>

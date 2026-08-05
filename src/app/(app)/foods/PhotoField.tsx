@@ -41,9 +41,9 @@ export default function PhotoField({ defaultUrl }: { defaultUrl?: string | null 
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Paste a photo URL"
-          className="input flex-1 min-w-48"
+          className="input flex-1 min-w-48 bg-white dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
         />
-        <label className="cursor-pointer rounded-md border border-neutral-300 px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50">
+        <label className="cursor-pointer rounded-md border border-neutral-300 px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800">
           {uploading ? "Uploading..." : "Upload photo"}
           <input
             type="file"
@@ -57,19 +57,19 @@ export default function PhotoField({ defaultUrl }: { defaultUrl?: string | null 
           <button
             type="button"
             onClick={() => setUrl("")}
-            className="text-sm text-red-600 hover:text-red-700"
+            className="text-sm text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
           >
             Remove
           </button>
         ) : null}
       </div>
-      {error ? <p className="text-xs text-red-600">{error}</p> : null}
+      {error ? <p className="text-xs text-red-600 dark:text-red-400">{error}</p> : null}
       {url ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={url}
           alt="Food photo preview"
-          className="h-24 w-24 rounded-md border border-neutral-200 object-cover"
+          className="h-24 w-24 rounded-md border border-neutral-200 object-cover dark:border-neutral-800"
         />
       ) : null}
     </div>

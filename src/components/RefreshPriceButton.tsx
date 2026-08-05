@@ -38,11 +38,11 @@ export default function RefreshPriceButton({
       <button
         onClick={handleClick}
         disabled={loading}
-        className="text-xs font-medium text-neutral-600 hover:text-neutral-900 disabled:opacity-50"
+        className="text-xs font-medium text-neutral-600 hover:text-neutral-900 disabled:opacity-50 dark:text-neutral-400 dark:hover:text-neutral-100"
       >
         {loading ? "Checking..." : "Refresh price"}
       </button>
-      {error ? <span className="text-xs text-red-600">{error}</span> : null}
+      {error ? <span className="text-xs text-red-600 dark:text-red-400">{error}</span> : null}
     </div>
   );
 }

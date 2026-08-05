@@ -56,9 +56,9 @@ export default function KrogerLocationPicker({
 
   if (currentLocationId) {
     return (
-      <div className="flex items-center gap-2 text-xs text-neutral-500">
+      <div className="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
         <span>Kroger store linked (ID: {currentLocationId})</span>
-        <button onClick={handleClear} className="font-medium text-neutral-600 hover:text-neutral-900">
+        <button onClick={handleClear} className="font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100">
           Change
         </button>
       </div>
@@ -67,35 +67,35 @@ export default function KrogerLocationPicker({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <input
           type="text"
           value={zip}
           onChange={(e) => setZip(e.target.value)}
           placeholder="ZIP code"
-          className="w-24 rounded-md border border-neutral-300 px-2 py-1 text-xs"
+          className="w-24 rounded-md border border-neutral-300 bg-white px-2 py-1 text-xs dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
         />
         <button
           type="button"
           onClick={handleSearch}
           disabled={loading}
-          className="text-xs font-medium text-neutral-600 hover:text-neutral-900 disabled:opacity-50"
+          className="text-xs font-medium text-neutral-600 hover:text-neutral-900 disabled:opacity-50 dark:text-neutral-400 dark:hover:text-neutral-100"
         >
           {loading ? "Searching..." : "Find my Kroger store"}
         </button>
       </div>
-      {error ? <p className="text-xs text-red-600">{error}</p> : null}
+      {error ? <p className="text-xs text-red-600 dark:text-red-400">{error}</p> : null}
       {results.length > 0 ? (
         <ul className="flex flex-col gap-1">
           {results.map((loc) => (
-            <li key={loc.locationId} className="flex items-center justify-between gap-2 text-xs">
+            <li key={loc.locationId} className="flex flex-wrap items-center justify-between gap-2 text-xs">
               <span>
                 {loc.name} — {loc.address}
               </span>
               <button
                 type="button"
                 onClick={() => handleSelect(loc.locationId)}
-                className="font-medium text-neutral-900 underline"
+                className="font-medium text-neutral-900 underline dark:text-neutral-100"
               >
                 Use this store
               </button>

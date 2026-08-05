@@ -59,8 +59,8 @@ export default function SuggestionsClient({
               onClick={() => setKind(opt.value)}
               className={`rounded-full px-3 py-1.5 text-sm font-medium ${
                 kind === opt.value
-                  ? "bg-neutral-900 text-white"
-                  : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+                  ? "bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900"
+                  : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
               }`}
             >
               {opt.label}
@@ -72,13 +72,13 @@ export default function SuggestionsClient({
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="Optional: add specifics, e.g. 'quick weeknight dinners' or 'nothing with rice'"
           rows={3}
-          className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
+          className="rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
         />
-        {error ? <p className="text-sm text-red-600">{error}</p> : null}
+        {error ? <p className="text-sm text-red-600 dark:text-red-400">{error}</p> : null}
         <button
           type="submit"
           disabled={loading}
-          className="self-start rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800 disabled:opacity-50"
+          className="self-start rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800 disabled:opacity-50 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-300"
         >
           {loading ? "Thinking..." : "Generate"}
         </button>
@@ -87,19 +87,19 @@ export default function SuggestionsClient({
       <section className="flex flex-col gap-4">
         <h2 className="text-lg font-medium">Saved suggestions</h2>
         {suggestions.length === 0 ? (
-          <p className="text-sm text-neutral-500">Nothing generated yet.</p>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">Nothing generated yet.</p>
         ) : (
           <ul className="flex flex-col gap-4">
             {suggestions.map((s) => (
               <li
                 key={s.id}
-                className="rounded-lg border border-neutral-200 bg-white p-4"
+                className="rounded-lg border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900"
               >
-                <div className="mb-2 flex items-center justify-between text-xs text-neutral-500">
+                <div className="mb-2 flex flex-wrap items-center justify-between gap-1 text-xs text-neutral-500 dark:text-neutral-400">
                   <span className="uppercase tracking-wide">{s.kind.replace("_", " ")}</span>
                   <span>{new Date(s.created_at).toLocaleString()}</span>
                 </div>
-                <p className="whitespace-pre-wrap text-sm text-neutral-800">
+                <p className="whitespace-pre-wrap text-sm text-neutral-800 dark:text-neutral-200">
                   {s.content}
                 </p>
               </li>

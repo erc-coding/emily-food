@@ -43,7 +43,7 @@ export default async function StoresPage() {
                   name="location"
                   defaultValue={store.location ?? ""}
                   placeholder="Address, for price lookups"
-                  className="w-48 rounded-md border border-neutral-300 px-2 py-1 text-xs"
+                  className="w-48 rounded-md border border-neutral-300 bg-white px-2 py-1 text-xs dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
                 />
                 {isKroger ? (
                   <input type="hidden" name="website_url" value={store.website_url ?? ""} />
@@ -53,12 +53,12 @@ export default async function StoresPage() {
                     name="website_url"
                     defaultValue={store.website_url ?? ""}
                     placeholder="This store's own URL (optional, speeds up lookups)"
-                    className="w-72 rounded-md border border-neutral-300 px-2 py-1 text-xs"
+                    className="w-72 rounded-md border border-neutral-300 bg-white px-2 py-1 text-xs dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
                   />
                 )}
                 <button
                   type="submit"
-                  className="text-xs font-medium text-neutral-600 hover:text-neutral-900"
+                  className="text-xs font-medium text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
                 >
                   Save
                 </button>
@@ -73,28 +73,28 @@ export default async function StoresPage() {
               </div>
             ) : null}
             {items.length === 0 ? (
-              <p className="mt-2 text-sm text-neutral-500">
+              <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
                 No foods linked to this store yet.
               </p>
             ) : (
-              <ul className="mt-3 divide-y divide-neutral-200 rounded-lg border border-neutral-200 bg-white">
+              <ul className="mt-3 divide-y divide-neutral-200 rounded-lg border border-neutral-200 bg-white dark:divide-neutral-800 dark:border-neutral-800 dark:bg-neutral-900">
                 {items.map(({ food, fs }) => (
                   <li key={fs.id} className="flex flex-col gap-2 px-4 py-3">
-                    <div className="flex items-center justify-between gap-4">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
                       <div>
                         <Link href={`/foods/${food.id}`} className="font-medium hover:underline">
                           {food.name}
                         </Link>
                         {fs.aisle ? (
-                          <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
+                          <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900/40 dark:text-blue-300">
                             {fs.aisle}
                           </span>
                         ) : null}
-                        <p className="text-xs text-neutral-500">
+                        <p className="text-xs text-neutral-500 dark:text-neutral-400">
                           {formatTimestamp(fs.last_checked_at)}
                         </p>
                       </div>
-                      <div className="flex items-center gap-4">
+                      <div className="flex flex-wrap items-center gap-3">
                         <span className="text-sm font-medium">
                           {formatPrice(fs.last_known_price)}
                         </span>
@@ -108,7 +108,7 @@ export default async function StoresPage() {
                       </div>
                     </div>
                     {fs.notes ? (
-                      <p className="text-xs text-neutral-500">{fs.notes}</p>
+                      <p className="text-xs text-neutral-500 dark:text-neutral-400">{fs.notes}</p>
                     ) : null}
                   </li>
                 ))}
