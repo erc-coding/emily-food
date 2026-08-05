@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getFoodsWithRelations, getStores } from "@/lib/data";
 import RefreshPriceButton from "@/components/RefreshPriceButton";
 import PriceEditor from "@/components/PriceEditor";
+import { formatDateTime } from "@/lib/format";
 import FoodForm from "../FoodForm";
 import { updateFood, deleteFood } from "../actions";
 
@@ -12,7 +13,7 @@ function formatPrice(price: number | null) {
 
 function formatTimestamp(ts: string | null) {
   if (!ts) return "Never checked";
-  return `Checked ${new Date(ts).toLocaleString()}`;
+  return `Checked ${formatDateTime(ts)}`;
 }
 
 export default async function EditFoodPage({

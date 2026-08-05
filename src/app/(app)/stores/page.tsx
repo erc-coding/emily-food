@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getFoodsWithRelations, getStores } from "@/lib/data";
 import RefreshPriceButton from "@/components/RefreshPriceButton";
 import PriceEditor from "@/components/PriceEditor";
+import { formatDateTime } from "@/lib/format";
 import KrogerLocationPicker from "./KrogerLocationPicker";
 import { updateStoreLocation } from "./actions";
 
@@ -12,7 +13,7 @@ function formatPrice(price: number | null) {
 
 function formatTimestamp(ts: string | null) {
   if (!ts) return "Never checked";
-  return `Checked ${new Date(ts).toLocaleString()}`;
+  return `Checked ${formatDateTime(ts)}`;
 }
 
 export default async function StoresPage() {

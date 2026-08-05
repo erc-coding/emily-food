@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AiSuggestion, AiSuggestionKind } from "@/types/database";
+import { formatDateTime } from "@/lib/format";
 
 const KIND_OPTIONS: { value: AiSuggestionKind; label: string }[] = [
   { value: "recipe", label: "Recipes from what's on hand" },
@@ -97,7 +98,7 @@ export default function SuggestionsClient({
               >
                 <div className="mb-2 flex flex-wrap items-center justify-between gap-1 text-xs text-neutral-500 dark:text-neutral-400">
                   <span className="uppercase tracking-wide">{s.kind.replace("_", " ")}</span>
-                  <span>{new Date(s.created_at).toLocaleString()}</span>
+                  <span>{formatDateTime(s.created_at)}</span>
                 </div>
                 <p className="whitespace-pre-wrap text-sm text-neutral-800 dark:text-neutral-200">
                   {s.content}
