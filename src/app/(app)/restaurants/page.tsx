@@ -49,7 +49,7 @@ export default async function RestaurantsPage() {
                     </span>
                   )}
                   {r.has_drive_through === true ? (
-                    <span className="rounded-full bg-violet-400 px-2 py-0.5 text-xs font-medium text-neutral-700 dark:bg-violet-200 dark:text-neutral-300">
+                    <span className="rounded-full bg-violet-200 px-2 py-0.5 text-xs font-medium text-neutral-700 dark:bg-violet-400 dark:text-neutral-300">
                       Drive-through
                     </span>
                   ) : null}
