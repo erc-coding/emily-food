@@ -69,7 +69,7 @@ export default function RestaurantForm({
                   ? "no"
                   : ""
             }
-            className="input bg-white dark:border-neutral-700 dark:bg-violet-400 dark:text-neutral-100"
+            className="input bg-white dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
           >
             <option value="">Not sure</option>
             <option value="yes">Yes</option>

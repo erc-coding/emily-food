@@ -11,7 +11,7 @@ export default async function RestaurantsPage() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Safe restaurants</h1>
+        <h1 className="text-2xl font-semibold">Safe Restaurants</h1>
         <Link
           href="/restaurants/new"
           className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-300"
@@ -49,7 +49,7 @@ export default async function RestaurantsPage() {
                     </span>
                   )}
                   {r.has_drive_through === true ? (
-                    <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+                    <span className="rounded-full bg-violet-400 px-2 py-0.5 text-xs font-medium text-neutral-700 dark:bg-violet-200 dark:text-neutral-300">
                       Drive-through
                     </span>
                   ) : null}
