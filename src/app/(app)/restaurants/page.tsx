@@ -3,10 +3,56 @@ import { createClient } from "@/lib/supabase/server";
 import { googleMapsSearchUrl } from "@/lib/maps";
 import type { Restaurant } from "@/types/database";
 
-export default async function RestaurantsPage() {
+type RestaurantSearchParams = {
+  tag?: string;
+  status?: string;
+  drive?: string;
+};
+
+export default async function RestaurantsPage({
+  searchParams,
+}: {
+  searchParams: Promise<RestaurantSearchParams>;
+}) {
+  const {
+    tag: activeTag,
+    status: activeStatus,
+    drive: activeDrive,
+  } = await searchParams;
   const supabase = await createClient();
   const { data } = await supabase.from("restaurants").select("*").order("name");
-  const restaurants = (data ?? []) as Restaurant[];
+  const allRestaurants = (data ?? []) as Restaurant[];
+  const allTags = Array.from(new Set(allRestaurants.flatMap((r) => r.tags))).sort();
+  const restaurants = allRestaurants
+    .filter((r) => !activeTag || r.tags.includes(activeTag))
+    .filter((r) => !activeStatus || r.visit_status === activeStatus)
+    .filter((r) => {
+      if (activeDrive === "yes") return r.has_drive_through === true;
+      if (activeDrive === "no") return r.has_drive_through === false;
+      return true;
+    });
+  const hasActiveFilter = !!(activeTag || activeStatus || activeDrive);
+
+  function hrefWith(overrides: Partial<RestaurantSearchParams>) {
+    const next: RestaurantSearchParams = {
+      tag: activeTag,
+      status: activeStatus,
+      drive: activeDrive,
+      ...overrides,
+    };
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(next)) {
+      if (value) params.set(key, value);
+    }
+    const qs = params.toString();
+    return qs ? `/restaurants?${qs}` : "/restaurants";
+  }
+
+  function pillClass(active: boolean) {
+    return active
+      ? "rounded-full bg-neutral-900 px-3 py-1 text-xs font-medium text-white dark:bg-neutral-100 dark:text-neutral-900"
+      : "rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700";
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -20,9 +66,92 @@ export default async function RestaurantsPage() {
         </Link>
       </div>
 
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
+            Status
+          </span>
+          <Link
+            href={hrefWith({ status: undefined })}
+            className={pillClass(!activeStatus)}
+          >
+            All
+          </Link>
+          <Link
+            href={hrefWith({ status: activeStatus === "tried" ? undefined : "tried" })}
+            className={pillClass(activeStatus === "tried")}
+          >
+            Tried
+          </Link>
+          <Link
+            href={hrefWith({
+              status: activeStatus === "want_to_try" ? undefined : "want_to_try",
+            })}
+            className={pillClass(activeStatus === "want_to_try")}
+          >
+            Want to try
+          </Link>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
+            Drive-through
+          </span>
+          <Link
+            href={hrefWith({ drive: undefined })}
+            className={pillClass(!activeDrive)}
+          >
+            All
+          </Link>
+          <Link
+            href={hrefWith({ drive: activeDrive === "yes" ? undefined : "yes" })}
+            className={pillClass(activeDrive === "yes")}
+          >
+            Yes
+          </Link>
+          <Link
+            href={hrefWith({ drive: activeDrive === "no" ? undefined : "no" })}
+            className={pillClass(activeDrive === "no")}
+          >
+            No
+          </Link>
+        </div>
+
+        {allTags.length > 0 ? (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
+              Tag
+            </span>
+            <Link href={hrefWith({ tag: undefined })} className={pillClass(!activeTag)}>
+              All
+            </Link>
+            {allTags.map((tag) => (
+              <Link
+                key={tag}
+                href={hrefWith({ tag: activeTag === tag ? undefined : tag })}
+                className={pillClass(activeTag === tag)}
+              >
+                {tag}
+              </Link>
+            ))}
+          </div>
+        ) : null}
+
+        {hasActiveFilter ? (
+          <Link
+            href="/restaurants"
+            className="self-start text-xs font-medium text-neutral-500 underline hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200"
+          >
+            Clear filters
+          </Link>
+        ) : null}
+      </div>
+
       {restaurants.length === 0 ? (
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
-          No restaurants yet. Add the first place you know is safe to eat.
+          {hasActiveFilter
+            ? "No restaurants match the current filters."
+            : "No restaurants yet. Add the first place you know is safe to eat."}
         </p>
       ) : (
         <ul className="flex flex-col gap-3">
@@ -80,6 +209,19 @@ export default async function RestaurantsPage() {
                 <p className="mt-2 whitespace-pre-wrap rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
                   {r.safety_notes}
                 </p>
+              ) : null}
+
+              {r.tags.length > 0 ? (
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {r.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               ) : null}
             </li>
           ))}

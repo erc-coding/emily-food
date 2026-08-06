@@ -79,6 +79,21 @@ export default function RestaurantForm({
       </div>
 
       <div className="flex flex-col gap-1">
+        <label htmlFor="tags" className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          Tags
+        </label>
+        <p className="text-xs text-neutral-500 dark:text-neutral-400">
+          Comma-separated, e.g. fast food, date night, kid friendly
+        </p>
+        <input
+          id="tags"
+          name="tags"
+          defaultValue={restaurant?.tags.join(", ") ?? ""}
+          className="input bg-white dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+        />
+      </div>
+
+      <div className="flex flex-col gap-1">
         <label
           htmlFor="safety_notes"
           className="text-sm font-semibold text-amber-900 dark:text-amber-300"

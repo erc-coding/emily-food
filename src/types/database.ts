@@ -67,6 +67,7 @@ export type Restaurant = {
   /** null means "not known yet", which is distinct from a confirmed "no". */
   has_drive_through: boolean | null;
   visit_status: VisitStatus;
+  tags: string[];
   created_at: string;
   updated_at: string;
 };

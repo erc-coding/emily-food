@@ -16,6 +16,13 @@ function parseVisitStatus(raw: FormDataEntryValue | null): "tried" | "want_to_tr
   return raw === "tried" ? "tried" : "want_to_try";
 }
 
+function parseTags(raw: string): string[] {
+  return raw
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+}
+
 export async function createRestaurant(_prevState: unknown, formData: FormData) {
   const supabase = await createClient();
 
@@ -24,6 +31,7 @@ export async function createRestaurant(_prevState: unknown, formData: FormData) 
   const safety_notes = (formData.get("safety_notes") as string) || null;
   const has_drive_through = parseDriveThrough(formData.get("has_drive_through"));
   const visit_status = parseVisitStatus(formData.get("visit_status"));
+  const tags = parseTags((formData.get("tags") as string) || "");
 
   if (!name?.trim()) {
     return { error: "Name is required." };
@@ -31,7 +39,7 @@ export async function createRestaurant(_prevState: unknown, formData: FormData) 
 
   const { error } = await supabase
     .from("restaurants")
-    .insert({ name, allergen_menu_url, safety_notes, has_drive_through, visit_status });
+    .insert({ name, allergen_menu_url, safety_notes, has_drive_through, visit_status, tags });
 
   if (error) {
     return { error: error.message };
@@ -50,6 +58,7 @@ export async function updateRestaurant(_prevState: unknown, formData: FormData) 
   const safety_notes = (formData.get("safety_notes") as string) || null;
   const has_drive_through = parseDriveThrough(formData.get("has_drive_through"));
   const visit_status = parseVisitStatus(formData.get("visit_status"));
+  const tags = parseTags((formData.get("tags") as string) || "");
 
   if (!name?.trim()) {
     return { error: "Name is required." };
@@ -57,7 +66,7 @@ export async function updateRestaurant(_prevState: unknown, formData: FormData) 
 
   const { error } = await supabase
     .from("restaurants")
-    .update({ name, allergen_menu_url, safety_notes, has_drive_through, visit_status })
+    .update({ name, allergen_menu_url, safety_notes, has_drive_through, visit_status, tags })
     .eq("id", id);
 
   if (error) {
