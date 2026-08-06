@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Household Food App",
-  description: "Food safety, inventory & meal planning for our household",
+  description: "Food safety, inventory, & meal planning for our household",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
