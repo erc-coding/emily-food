@@ -26,7 +26,7 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
         <QuickLink href="/foods" label="Add a safe food" />
         <QuickLink href="/inventory" label="Update inventory" />
-        <QuickLink href="/stores" label="Refresh prices" />
+        <QuickLink href="/restaurants" label="Safe restaurants" />
         <QuickLink href="/suggestions" label="Get meal ideas" />
       </div>
 

@@ -1,3 +1,5 @@
+export type VisitStatus = "tried" | "want_to_try";
+
 export type Food = {
   id: string;
   name: string;
@@ -6,6 +8,7 @@ export type Food = {
   safety_notes: string | null;
   dietary_tags: string[];
   photo_url: string | null;
+  visit_status: VisitStatus;
   created_at: string;
   updated_at: string;
 };
@@ -54,6 +57,18 @@ export type AiSuggestion = {
 export type FoodWithRelations = Food & {
   food_stores: (FoodStore & { store: Store })[];
   inventory: Inventory | null;
+};
+
+export type Restaurant = {
+  id: string;
+  name: string;
+  allergen_menu_url: string | null;
+  safety_notes: string | null;
+  /** null means "not known yet", which is distinct from a confirmed "no". */
+  has_drive_through: boolean | null;
+  visit_status: VisitStatus;
+  created_at: string;
+  updated_at: string;
 };
 
 export type KrogerLocation = {

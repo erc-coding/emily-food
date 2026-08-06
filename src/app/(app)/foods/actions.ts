@@ -11,6 +11,10 @@ function parseTags(raw: string): string[] {
     .filter(Boolean);
 }
 
+function parseVisitStatus(raw: FormDataEntryValue | null): "tried" | "want_to_try" {
+  return raw === "want_to_try" ? "want_to_try" : "tried";
+}
+
 export async function createFood(_prevState: unknown, formData: FormData) {
   const supabase = await createClient();
 
@@ -20,6 +24,7 @@ export async function createFood(_prevState: unknown, formData: FormData) {
   const safety_notes = (formData.get("safety_notes") as string) || null;
   const dietary_tags = parseTags((formData.get("dietary_tags") as string) || "");
   const photo_url = (formData.get("photo_url") as string)?.trim() || null;
+  const visit_status = parseVisitStatus(formData.get("visit_status"));
   const storeIds = formData.getAll("store_ids") as string[];
 
   if (!name?.trim()) {
@@ -28,7 +33,7 @@ export async function createFood(_prevState: unknown, formData: FormData) {
 
   const { data: food, error } = await supabase
     .from("foods")
-    .insert({ name, brand, category, safety_notes, dietary_tags, photo_url })
+    .insert({ name, brand, category, safety_notes, dietary_tags, photo_url, visit_status })
     .select()
     .single();
 
@@ -83,6 +88,7 @@ export async function updateFood(_prevState: unknown, formData: FormData) {
   const safety_notes = (formData.get("safety_notes") as string) || null;
   const dietary_tags = parseTags((formData.get("dietary_tags") as string) || "");
   const photo_url = (formData.get("photo_url") as string)?.trim() || null;
+  const visit_status = parseVisitStatus(formData.get("visit_status"));
   const storeIds = formData.getAll("store_ids") as string[];
 
   if (!name?.trim()) {
@@ -91,7 +97,7 @@ export async function updateFood(_prevState: unknown, formData: FormData) {
 
   const { error } = await supabase
     .from("foods")
-    .update({ name, brand, category, safety_notes, dietary_tags, photo_url })
+    .update({ name, brand, category, safety_notes, dietary_tags, photo_url, visit_status })
     .eq("id", id);
 
   if (error) {

@@ -52,6 +52,11 @@ export default async function FoodsPage() {
                           &middot; {food.brand}
                         </span>
                       ) : null}
+                      {food.visit_status === "want_to_try" ? (
+                        <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900/40 dark:text-blue-300">
+                          Want to try
+                        </span>
+                      ) : null}
                     </p>
                     {food.category ? (
                       <p className="text-xs uppercase tracking-wide text-neutral-400 dark:text-neutral-500">

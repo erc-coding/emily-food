@@ -52,6 +52,18 @@ export default function FoodForm({
         />
       </Field>
 
+      <Field label="Status" htmlFor="visit_status">
+        <select
+          id="visit_status"
+          name="visit_status"
+          defaultValue={food?.visit_status ?? "tried"}
+          className="input self-start bg-white dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+        >
+          <option value="tried">Tried it</option>
+          <option value="want_to_try">Want to try</option>
+        </select>
+      </Field>
+
       <Field
         label="Safety notes"
         htmlFor="safety_notes"
